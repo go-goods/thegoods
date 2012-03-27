@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/goods/tmplmgr"
+	"thegoods.biz/tmplmgr"
 	"log"
 	"net/http"
 	"path/filepath"
