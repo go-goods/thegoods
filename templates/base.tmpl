@@ -17,13 +17,7 @@
         <h1>The Goods</h1>
         <p id="tagline">All the goods you need to code go</p>
       </div> <!-- /container -->
-      <div class="row">
-        <div class="span12">
-          <div class="well">
-            {% template "package_table" .packages %}
-          </div>
-        </div>
-      </div>
+      {% template "content" . %}
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
