@@ -12,9 +12,18 @@
   </head>
   <body>
     <div class="container">
-      <h1>Foo</h1>
-    </div> <!-- /container -->
-
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>The Goods</h1>
+        <p id="tagline">All the goods you need to code go</p>
+      </div> <!-- /container -->
+      <div class="row">
+        <div class="span12">
+          <div class="well">
+            {% template "package_table" .packages %}
+          </div>
+        </div>
+      </div>
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

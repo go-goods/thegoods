@@ -1,0 +1,14 @@
+{% define "package_table" %}
+            <table class="table">
+              <thead>
+                <th>Clone Path</th>
+                <th>What</th>
+              </thead>
+{% range $package := . %}
+              <tr>
+                <td>thegoods.biz/{% $package.Package %}</td>
+                <td>{% $package.Name %}</td>
+              </tr>
+{% end %}
+            </table>
+{% end %}

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"thegoods.biz/tmplmgr"
 	"log"
 	"net/http"
 	"path/filepath"
+	"thegoods.biz/tmplmgr"
 )
 
 type Package struct {
@@ -20,21 +20,20 @@ var (
 	template_dir  = filepath.Join(env("APPROOT", ""), "templates")
 	base_template = tmplmgr.Parse(tmpl_root("base.tmpl"))
 
-	packages = []Package{
-		{"Template Manager", "git://github.com/goods/tmplmgr.git", "tmplmgr", "git"},
-	}
-
 	context = d{
 		"css": []string{
-			"bootstrap.min.css",
+			"bootstrap-slate.min.css",
 			"bootstrap-responsive.min.css",
+			"main.css",
 		},
 		"js": []string{
 			"jquery.min.js",
 			"jquery-ui.min.js",
 			"bootstrap.js",
 		},
-		"packages": packages,
+		"packages": []Package{
+			{"Template Manager", "git://github.com/goods/tmplmgr.git", "tmplmgr", "git"},
+		},
 	}
 )
 
