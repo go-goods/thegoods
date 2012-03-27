@@ -1,27 +1,42 @@
 package main
 
 import (
-	"github.com/zeebo/bencode"
-	"hello"
+	"github.com/goods/tmplmgr"
 	"log"
 	"net/http"
-	"os"
+	"path/filepath"
 )
 
-func benc(w http.ResponseWriter, req *http.Request) {
-	enc := bencode.NewEncoder(w)
-	if err := enc.Encode(map[string]interface{}{
-		"foo": "bar",
-		"baz": 2,
-		"buf": []string{"baz", "bloof"},
-	}); err != nil {
-		log.Println(err)
+type Package struct {
+	Name string
+	RepoPath string
+	VCS string
+}
+
+var (
+	mode          = tmplmgr.Development
+	assets_dir    = filepath.Join(env("APPROOT", ""), "assets")
+	template_dir  = filepath.Join(env("APPROOT", ""), "templates")
+	base_template = tmplmgr.Parse(tmpl_root("base.tmpl"))
+
+	packages = []Package{
+		{"Template Manager", "github.com/goods/tmplmgr", "git"},
 	}
-	log.Printf("Handled request from %s :)", req.RemoteAddr)
+)
+
+func init() {
+	//set our compiler mode
+	tmplmgr.CompileMode(mode)
+
+	//add blocks to base template
+	base_template.Blocks(tmpl_root("*.block"))
 }
 
 func main() {
-	http.HandleFunc("/", hello.Hello)
-	http.HandleFunc("/benc", benc)
-	http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+	http.HandleFunc("/", nil)
+
+	serve_static("/assets", asset_root(""))
+	if err := http.ListenAndServe(":"+env("PORT", "9080"), nil); err != nil {
+		log.Fatal(err)
+	}
 }
