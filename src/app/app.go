@@ -20,7 +20,7 @@ var (
 	base_template = tmplmgr.Parse(tmpl_root("base.tmpl"))
 
 	packages = []Package{
-		{"Template Manager", "github.com/goods/tmplmgr", "git"},
+		{"Template Manager", "git://github.com/goods/tmplmgr.git", "git"},
 	}
 
 	context = d{
