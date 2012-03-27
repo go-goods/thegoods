@@ -10,6 +10,7 @@ import (
 type Package struct {
 	Name     string
 	RepoPath string
+	Package  string
 	VCS      string
 }
 
@@ -20,7 +21,7 @@ var (
 	base_template = tmplmgr.Parse(tmpl_root("base.tmpl"))
 
 	packages = []Package{
-		{"Template Manager", "git://github.com/goods/tmplmgr.git", "git"},
+		{"Template Manager", "git://github.com/goods/tmplmgr.git", "tmplmgr", "git"},
 	}
 
 	context = d{
