@@ -1,0 +1,5 @@
+{% define "packages" %}
+{% range $package := . %}
+    <meta name="go-import" content="thegoods.biz {% $package.VCS %} {% $package.RepoPath %}">
+{% end %}
+{% end %}

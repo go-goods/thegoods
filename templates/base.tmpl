@@ -4,20 +4,21 @@
     <meta charset="utf-8">
     <title>The Goods</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% template "css" .meta.CSS %}
+    {% template "packages" .packages %}
+    {% template "css" .css %}
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
   <body>
     <div class="container">
-{% template "content" . %}
+      <h1>Foo</h1>
     </div> <!-- /container -->
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    {% template "js" .meta.JS %}
+    {% template "js" .js %}
   </body>
 </html>
 
