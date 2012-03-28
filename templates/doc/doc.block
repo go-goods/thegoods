@@ -9,79 +9,74 @@
 
 <div class="container">
 	{% with .pdoc %}
-		{% if .IsCmd %}
-			<h2>Command {% $.pi|cmdName %}</h2>
-			{% .Doc|comment %}
-		{% else %}
-			<h2>package {% .Name|html %}</h2>
-			<p><code>import "{% .ImportPath|html %}"</code></p>
+		<h2>package {% .Name|html %}</h2>
+		<p><code>import "{% .ImportPath|html %}"</code></p>
+		<ul class="unstyled">
+			<li><a href="#overview">Overview</a>
+			<li><a href="#index">Index</a>
+		</ul>
+		<h3 id="overview">Overview</h3>
+		{% .Doc|comment %}
+		{% template "Examples" . %}
+		<h3 id="index">Index</h3>
+		<div style="-webkit-column-count: 2; -moz-column-count: 2; column-count: 2">
 			<ul class="unstyled">
-				<li><a href="#overview">Overview</a>
-				<li><a href="#index">Index</a>
+				<li><a href="#files">Package Files</a>
+				{% if .Consts %}<li><a href="#constants">Constants</a>{% end %}
+				{% if .Vars %}<li><a href="#variables">Variables</a>{% end %}
+				{% range .Funcs %}<li><a href="#{% .Name %}" title="{% .Decl.Text|html %}">func {% .Name|html %}</a>{% template "ExampleLinks" . %}{% end %}
+				{% range $t := .Types %}
+					<li><a href="#{% .Name|html %}">type {% .Name|html %}</a>{% template "ExampleLinks" . %}
+					{% if or .Funcs .Methods %}
+						<ul>
+						{% range .Funcs %}<li><a href="#{% .Name|html %}" title="{% .Decl.Text|html %}">func {% .Name|html %}</a>{% template "ExampleLinks" . %}{% end %}
+						{% range .Methods %}<li><a href="#{% $t.Name|html %}.{% .Name|html %}" title="{% .Decl.Text|html %}">func ({% .Recv|html %}) {% .Name|html %}</a>{% template "ExampleLinks" . %}{% end %}
+						</ul>
+					{% end %}
+				{% end %}
 			</ul>
-			<h3 id="overview">Overview</h3>
+		</div>
+
+		<h3 id="files">Package Files</h3>
+		<p>{% range .Files %}{% .Name|html %} {% end %}</p>
+
+		{% if .Consts %}
+			<h3 id="constants">Constants</h3>
+			{% range .Consts %}<pre>{% .Decl|decl %}</pre>{% .Doc|comment %}{% end %}
+		{% end %}
+
+		{% if .Vars %}
+			<h3 id="variables">Variables</h3>
+			{% range .Vars %}<pre>{% .Decl|decl %}</pre>{% .Doc|comment %}{% end %}
+		{% end %}
+
+		{% range .Funcs %}
+			<h3 id="{% .Name|html %}">func {% .Name|html %}</h3>
+			<p><code>{% .Decl|decl %}</code></p>
 			{% .Doc|comment %}
 			{% template "Examples" . %}
-			<h3 id="index">Index</h3>
-			<div style="-webkit-column-count: 2; -moz-column-count: 2; column-count: 2">
-				<ul class="unstyled">
-					<li><a href="#files">Package Files</a>
-					{% if .Consts %}<li><a href="#constants">Constants</a>{% end %}
-					{% if .Vars %}<li><a href="#variables">Variables</a>{% end %}
-					{% range .Funcs %}<li><a href="#{% .Name %}" title="{% .Decl.Text|html %}">func {% .Name|html %}</a>{% template "ExampleLinks" . %}{% end %}
-					{% range $t := .Types %}
-						<li><a href="#{% .Name|html %}">type {% .Name|html %}</a>{% template "ExampleLinks" . %}
-						{% if or .Funcs .Methods %}
-							<ul>
-							{% range .Funcs %}<li><a href="#{% .Name|html %}" title="{% .Decl.Text|html %}">func {% .Name|html %}</a>{% template "ExampleLinks" . %}{% end %}
-							{% range .Methods %}<li><a href="#{% $t.Name|html %}.{% .Name|html %}" title="{% .Decl.Text|html %}">func ({% .Recv|html %}) {% .Name|html %}</a>{% template "ExampleLinks" . %}{% end %}
-							</ul>
-						{% end %}
-					{% end %}
-				</ul>
-			</div>
+		{% end %}
 
-			<h3 id="files">Package Files</h3>
-			<p>{% range .Files %}{% .Name|html %} {% end %}</p>
-
-			{% if .Consts %}
-				<h3 id="constants">Constants</h3>
-				{% range .Consts %}<pre>{% .Decl|decl %}</pre>{% .Doc|comment %}{% end %}
-			{% end %}
-
-			{% if .Vars %}
-				<h3 id="variables">Variables</h3>
-				{% range .Vars %}<pre>{% .Decl|decl %}</pre>{% .Doc|comment %}{% end %}
-			{% end %}
+		{% range $t := .Types %}
+			<h3 id="{% .Name|html %}">type {% .Name|html %}</h3>
+			{% .Doc|comment %}
+			<pre>{% .Decl|decl %}</pre>
+			{% range .Consts %}<pre>{% .Decl|decl %}</pre>{% .Doc|comment %}{% end %}
+			{% range .Vars %}<pre>{% .Decl|decl %}</pre>{% .Doc|comment %}{% end %}
+			{% template "Examples" . %}
 
 			{% range .Funcs %}
-				<h3 id="{% .Name|html %}">func {% .Name|html %}</h3>
+				<h4 id="{% .Name|html %}">func {% .Name|html %}</h4>
 				<p><code>{% .Decl|decl %}</code></p>
 				{% .Doc|comment %}
 				{% template "Examples" . %}
 			{% end %}
 
-			{% range $t := .Types %}
-				<h3 id="{% .Name|html %}">type {% .Name|html %}</h3>
+			{% range .Methods %}
+				<h4 id="{% $t.Name|html %}.{% .Name|html %}">func ({% .Recv|html %}) {% .Name|html %}</h4>
+				<p><code>{% .Decl|decl %}</code></p>
 				{% .Doc|comment %}
-				<pre>{% .Decl|decl %}</pre>
-				{% range .Consts %}<pre>{% .Decl|decl %}</pre>{% .Doc|comment %}{% end %}
-				{% range .Vars %}<pre>{% .Decl|decl %}</pre>{% .Doc|comment %}{% end %}
 				{% template "Examples" . %}
-
-				{% range .Funcs %}
-					<h4 id="{% .Name|html %}">func {% .Name|html %}</h4>
-					<p><code>{% .Decl|decl %}</code></p>
-					{% .Doc|comment %}
-					{% template "Examples" . %}
-				{% end %}
-
-				{% range .Methods %}
-					<h4 id="{% $t.Name|html %}.{% .Name|html %}">func ({% .Recv|html %}) {% .Name|html %}</h4>
-					<p><code>{% .Decl|decl %}</code></p>
-					{% .Doc|comment %}
-					{% template "Examples" . %}
-				{% end %}
 			{% end %}
 		{% end %}
 	{% end %}
