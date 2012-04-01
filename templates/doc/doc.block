@@ -9,8 +9,8 @@
 
 <div class="container">
 	{% with .pdoc %}
-		<h2>package {% .Name|html %}</h2>
-		<p><code>import "{% .ImportPath|html %}"</code></p>
+		<h2>package {% .Name %}</h2>
+		<p><code>import "{% .ImportPath %}"</code></p>
 		<ul class="unstyled">
 			<li><a href="#overview">Overview</a>
 			<li><a href="#index">Index</a>
@@ -24,13 +24,13 @@
 				<li><a href="#files">Package Files</a>
 				{% if .Consts %}<li><a href="#constants">Constants</a>{% end %}
 				{% if .Vars %}<li><a href="#variables">Variables</a>{% end %}
-				{% range .Funcs %}<li><a href="#{% .Name %}" title="{% .Decl.Text|html %}">func {% .Name|html %}</a>{% template "ExampleLinks" . %}{% end %}
+				{% range .Funcs %}<li><a href="#{% .Name %}" title="{% .Decl.Text %}">func {% .Name %}</a>{% template "ExampleLinks" . %}{% end %}
 				{% range $t := .Types %}
-					<li><a href="#{% .Name|html %}">type {% .Name|html %}</a>{% template "ExampleLinks" . %}
+					<li><a href="#{% .Name %}">type {% .Name %}</a>{% template "ExampleLinks" . %}
 					{% if or .Funcs .Methods %}
 						<ul>
-						{% range .Funcs %}<li><a href="#{% .Name|html %}" title="{% .Decl.Text|html %}">func {% .Name|html %}</a>{% template "ExampleLinks" . %}{% end %}
-						{% range .Methods %}<li><a href="#{% $t.Name|html %}.{% .Name|html %}" title="{% .Decl.Text|html %}">func ({% .Recv|html %}) {% .Name|html %}</a>{% template "ExampleLinks" . %}{% end %}
+						{% range .Funcs %}<li><a href="#{% .Name %}" title="{% .Decl.Text %}">func {% .Name %}</a>{% template "ExampleLinks" . %}{% end %}
+						{% range .Methods %}<li><a href="#{% $t.Name %}.{% .Name %}" title="{% .Decl.Text %}">func ({% .Recv %}) {% .Name %}</a>{% template "ExampleLinks" . %}{% end %}
 						</ul>
 					{% end %}
 				{% end %}
@@ -38,7 +38,7 @@
 		</div>
 
 		<h3 id="files">Package Files</h3>
-		<p>{% range .Files %}{% .Name|html %} {% end %}</p>
+		<p>{% range .Files %}{% .Name %} {% end %}</p>
 
 		{% if .Consts %}
 			<h3 id="constants">Constants</h3>
@@ -51,14 +51,14 @@
 		{% end %}
 
 		{% range .Funcs %}
-			<h3 id="{% .Name|html %}">func {% .Name|html %}</h3>
+			<h3 id="{% .Name %}">func {% .Name %}</h3>
 			<p><code>{% .Decl.Text %}</code></p>
 			{% .Doc|comment %}
 			{% template "Examples" . %}
 		{% end %}
 
 		{% range $t := .Types %}
-			<h3 id="{% .Name|html %}">type {% .Name|html %}</h3>
+			<h3 id="{% .Name %}">type {% .Name %}</h3>
 			{% .Doc|comment %}
 			<pre>{% .Decl.Text %}</pre>
 			{% range .Consts %}<pre>{% .Decl.Text %}</pre>{% .Doc|comment %}{% end %}
@@ -66,14 +66,14 @@
 			{% template "Examples" . %}
 
 			{% range .Funcs %}
-				<h4 id="{% .Name|html %}">func {% .Name|html %}</h4>
+				<h4 id="{% .Name %}">func {% .Name %}</h4>
 				<p><code>{% .Decl.Text %}</code></p>
 				{% .Doc|comment %}
 				{% template "Examples" . %}
 			{% end %}
 
 			{% range .Methods %}
-				<h4 id="{% $t.Name|html %}.{% .Name|html %}">func ({% .Recv|html %}) {% .Name|html %}</h4>
+				<h4 id="{% $t.Name %}.{% .Name %}">func ({% .Recv %}) {% .Name %}</h4>
 				<p><code>{% .Decl.Text %}</code></p>
 				{% .Doc|comment %}
 				{% template "Examples" . %}
@@ -85,18 +85,18 @@
 
 {% define "ExampleLinks" %}
 	{% range .Examples %}
-		<a href="#example_{% .Name|html %}" title="Go to example" onclick="show('{% .Name|html %}')">☞ </a>
+		<a href="#example_{% .Name %}" title="Go to example" onclick="show('{% .Name %}')">☞ </a>
 	{% end %}
 {% end %}
 
 {% define "Examples" %}
 	{% range .Examples %}
-		<p><a id="example_{% .Name|html %}" href="javascript:ex('{% .Name|html %}');">☞ <i>Example</i></a>
-		<div id="d_{% .Name|html %}" style="display:none;" class="ex">
+		<p><a id="example_{% .Name %}" href="javascript:ex('{% .Name %}');">☞ <i>Example</i></a>
+		<div id="d_{% .Name %}" style="display:none;" class="ex">
 			{% with .Doc %}<p>{% .|comment %}{% end %}
 			{% if .Output %}<p>Code:{% end %}
-			<pre>{% .Code|html %}</pre>
-			{% with .Output %}<p>Output:<pre>{% .|html %}</pre>{% end %}
+			<pre>{% .Code %}</pre>
+			{% with .Output %}<p>Output:<pre>{% . %}</pre>{% end %}
 		</div>
 	{% end %}
 {% end %}
