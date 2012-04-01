@@ -27,6 +27,7 @@ var (
 
 	packages = []*Package{
 		{"Template Manager", "git://github.com/goods/tmplmgr.git", "thegoods.biz/tmplmgr"},
+		{"Forms", "git://github.com/goods/forms.git", "thegoods.biz/forms"},
 	}
 
 	context = d{
