@@ -17,30 +17,24 @@ package doc
 import (
 	"bytes"
 	godoc "go/doc"
+	"html/template"
 	"path"
-	"text/template"
 )
 
 var Funcs = template.FuncMap{
 	"comment": commentFmt,
 	"cmdName": cmdNameFmt,
-	"decl":    declFmt,
 }
 
 // commentFmt formats a source code control comment as HTML.
-func commentFmt(v string) string {
+func commentFmt(v string) template.HTML {
 	var buf bytes.Buffer
 	godoc.ToHTML(&buf, v, nil)
-	return buf.String()
-}
-
-// declFmt formats a Decl as HTML.
-func declFmt(decl Decl) string {
-	return template.HTMLEscapeString(decl.Text)
+	return template.HTML(buf.String())
 }
 
 // cmdNameFmt formats a doc.PathInfo as a command name.
 func cmdNameFmt(pi PathInfo) string {
 	_, name := path.Split(pi.ImportPath())
-	return template.HTMLEscapeString(name)
+	return name
 }
