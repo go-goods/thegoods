@@ -61,7 +61,7 @@ func do_update(dir string) (updated bool, err error) {
 	cmd.Stdout = &out
 	err = cmd.Run()
 
-	updated = out.String() == "Already up-to-date.\n"
+	updated = out.String() != "Already up-to-date.\n"
 	old[dir] = time.Now()
 	return
 }

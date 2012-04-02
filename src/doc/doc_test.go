@@ -38,10 +38,8 @@ func TestBuild(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	p, err := buildDoc(imp, files)
+	_, err = buildDoc(imp, files)
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	t.Logf("%#v", p)
 }
