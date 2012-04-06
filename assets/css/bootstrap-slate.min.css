@@ -756,7 +756,7 @@ label,input,button,select,textarea,legend{color:#757c82;}
 .modal-header{border-bottom:none;}
 .modal-body{border-bottom:1px solid #1C1E22;}
 .modal-footer{border-top:none;background-color:#272b30;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;}
-code,pre{background-color:#F7F7F7;border:1px solid #1c1e22;text-shadow:none;}
+code,pre{background-color:#202328;border:1px solid #1c1e22;text-shadow:none;color:#fff;}
 hr,legend,.page-header,.dropdown-menu .divider{border-top:none;border-bottom:1px solid #1c1e22;background-color:transparent;}
 footer.footer{border-top:1px solid #1c1e22;}footer.footer p{color:#757c82;}
 .well,.progress,.hero-unit{background-color:#202328;-webkit-box-shadow:inset 1px 1px 1px rgba(0, 0, 0, 0.5);-moz-box-shadow:inset 1px 1px 1px rgba(0, 0, 0, 0.5);box-shadow:inset 1px 1px 1px rgba(0, 0, 0, 0.5);}
