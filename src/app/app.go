@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"thegoods.biz/httpbuf"
 	"thegoods.biz/tmplmgr"
 )
 
@@ -56,6 +57,18 @@ func search(imp string) (p *Package) {
 	return
 }
 
+func cached_main(w http.ResponseWriter, req *http.Request) {
+	if buf, ex := app_cache.get(req.URL.Path); ex {
+		buf.Apply(w)
+		return
+	}
+
+	buf := new(httpbuf.Buffer)
+	handle_main(buf, req)
+	app_cache.set(req.URL.Path, buf)
+	buf.Apply(w)
+}
+
 func handle_main(w http.ResponseWriter, req *http.Request) {
 	if req.URL.Path == "/" {
 		//send the default
@@ -92,10 +105,6 @@ func handle_main(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func handle_blitz(w http.ResponseWriter, req *http.Request) {
-	w.Write([]byte(`42`))
-}
-
 func init() {
 	tmplmgr.CompileMode(mode)
 	base_template.Blocks(tmpl_root("*.block"))
@@ -105,8 +114,7 @@ func init() {
 }
 
 func main() {
-	http.HandleFunc("/", handle_main)
-	http.HandleFunc("/mu-d3b56281-842dfd17-15dd38ac-e0734cdf", handle_blitz)
+	http.HandleFunc("/", cached_main)
 	serve_static("/assets", asset_root(""))
 	if err := http.ListenAndServe(":"+env("PORT", "9080"), nil); err != nil {
 		log.Fatal(err)
