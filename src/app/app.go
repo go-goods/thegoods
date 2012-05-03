@@ -92,6 +92,10 @@ func handle_main(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
+func handle_blitz(w http.ResponseWriter, req *http.Request) {
+	w.Write([]byte(`42`))
+}
+
 func init() {
 	tmplmgr.CompileMode(mode)
 	base_template.Blocks(tmpl_root("*.block"))
@@ -102,6 +106,7 @@ func init() {
 
 func main() {
 	http.HandleFunc("/", handle_main)
+	http.HandleFunc("/mu-d3b56281-842dfd17-15dd38ac-e0734cdf", handle_blitz)
 	serve_static("/assets", asset_root(""))
 	if err := http.ListenAndServe(":"+env("PORT", "9080"), nil); err != nil {
 		log.Fatal(err)
