@@ -30,6 +30,7 @@ var (
 		{"Template Manager", "git://github.com/goods/tmplmgr.git", "thegoods.biz/tmplmgr"},
 		{"Forms", "git://github.com/goods/forms.git", "thegoods.biz/forms"},
 		{"HTTP Buffer", "git://github.com/goods/httpbuf.git", "thegoods.biz/httpbuf"},
+		{"Broadcaster", "git://github.com/goods/broadcast.git", "thegoods.biz/broadcast"},
 	}
 
 	context = d{
